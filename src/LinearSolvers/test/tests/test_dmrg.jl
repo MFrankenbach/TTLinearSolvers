@@ -1,4 +1,4 @@
-import BubbleTeaCI.LinearSolvers: lanczos, to_matrix, DMRG
+import Mochi.LinearSolvers: lanczos, to_matrix, DMRG
 
 @testset "Lanczos" begin
     function test_lanczos()

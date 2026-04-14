@@ -1,4 +1,4 @@
-import BubbleTeaCI.LinearSolvers: halfsweep!, make_Heisenberg, relative_error, AdagA
+import Mochi.LinearSolvers: halfsweep!, make_Heisenberg, relative_error, AdagA
 using Random, ITensors, ITensorMPS
 using Profile, StatProfilerHTML
 
@@ -98,7 +98,7 @@ function test_sweepsolve_gmres_BSE(;
     F_loc = BubbleTeaCI.compress_to_TTFunction(ComplexF64, grid, f; Dnew=4, tolerance=1.e-6)
     Fsub = BubbleTeaCI.compress_to_TTFunction(ComplexF64, grid, U; Dnew=4, tolerance=1.e-6)
     chi_nonloc = BubbleTeaCI.compress_to_TTFunction(ComplexF64, grid_chi, chi; Dnew=4, tolerance=1.e-6)
-    bcs = BubbleTeaCI._make_BasicContractOrders_BSE(
+    bcs = Mochi._make_BasicContractOrders_BSE(
         F_loc, chi_nonloc, F_loc;
         contract_legsL=[3,4],
         contract_legsLchi=[2,1],
@@ -108,13 +108,13 @@ function test_sweepsolve_gmres_BSE(;
         Nk1=1
     )
 
-    solver_gmres = BubbleTeaCI.BSESolver(F_loc, chi_nonloc, bcs; F_sub=Fsub, convergence_threshold=1.e-4)
+    solver_gmres = Mochi.BSESolver(F_loc, chi_nonloc, bcs; F_sub=Fsub, convergence_threshold=1.e-4)
 
     solver_mals = deepcopy(solver_gmres)
     contract_kwargs = Dict(:alg=>"fit", :cutoff=>1.e-8, :times_dV=>true)
-    BubbleTeaCI.gmres!(solver_gmres; contract_kwargs=contract_kwargs, howverbose=0, tol=1.e-6)
-    error_before = norm(solver_mals.F - (solver_mals.prefacs[1]*F_loc + solver_mals.prefacs[2]*BubbleTeaCI.BSE(solver_mals.F, chi_nonloc, F_loc, bcs...; contract_kwargs...))) / norm(solver_mals.F)
-    BubbleTeaCI.sweepsolve!(solver_mals;
+    Mochi.gmres!(solver_gmres; contract_kwargs=contract_kwargs, howverbose=0, tol=1.e-6)
+    error_before = norm(solver_mals.F - (solver_mals.prefacs[1]*F_loc + solver_mals.prefacs[2]*Mochi.BSE(solver_mals.F, chi_nonloc, F_loc, bcs...; contract_kwargs...))) / norm(solver_mals.F)
+    Mochi.sweepsolve!(solver_mals;
         method=method,
         contract_kwargs=contract_kwargs,
         times_dV=true,
@@ -144,8 +144,8 @@ function test_sweepsolve_gmres_BSE(;
     # more accurate
     contract_kwargs = Dict(:alg=>"fit", :cutoff=>1.e-25, :times_dV=>true)
     @show norm(F_gmres - F_mals)/norm(F_mals)
-    @show norm(F_gmres - (solver_gmres.prefacs[1]*F_loc + solver_gmres.prefacs[2]*BubbleTeaCI.BSE(F_gmres, chi_nonloc, F_loc, bcs...; contract_kwargs...))) / norm(F_gmres)
-    @show norm(F_mals - (solver_mals.prefacs[1]*F_loc + solver_mals.prefacs[2]*BubbleTeaCI.BSE(F_mals, chi_nonloc, F_loc, bcs...; contract_kwargs...))) / norm(F_mals)
+    @show norm(F_gmres - (solver_gmres.prefacs[1]*F_loc + solver_gmres.prefacs[2]*Mochi.BSE(F_gmres, chi_nonloc, F_loc, bcs...; contract_kwargs...))) / norm(F_gmres)
+    @show norm(F_mals - (solver_mals.prefacs[1]*F_loc + solver_mals.prefacs[2]*Mochi.BSE(F_mals, chi_nonloc, F_loc, bcs...; contract_kwargs...))) / norm(F_mals)
 end
 
 test_sweepsolve_gmres_BSE(

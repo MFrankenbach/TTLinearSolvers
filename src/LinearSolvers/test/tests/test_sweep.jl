@@ -1,4 +1,4 @@
-import BubbleTeaCI.LinearSolvers: halfsweep!, make_Heisenberg, relative_error
+import Mochi.LinearSolvers: halfsweep!, make_Heisenberg, relative_error
 
 @testset "sweeping for linear solve" begin
 

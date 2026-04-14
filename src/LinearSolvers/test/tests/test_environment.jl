@@ -1,4 +1,4 @@
-import BubbleTeaCI.LinearSolvers: make_environments, make_environment_at
+import Mochi.LinearSolvers: make_environments, make_environment_at
 
 @testset "Environment bulding" begin
     function test_make_environments(;ValueType=ComplexF64, len=4, sitedim=2, linkdims=3)

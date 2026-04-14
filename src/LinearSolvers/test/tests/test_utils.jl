@@ -1,4 +1,4 @@
-import BubbleTeaCI.LinearSolvers: AdagA, identity_MPO, unity, add_identity, truncate_upto!
+import Mochi.LinearSolvers: AdagA, identity_MPO, unity, add_identity, truncate_upto!
 
 @testset "utilities" begin
 

@@ -1,4 +1,4 @@
-import BubbleTeaCI.LinearSolvers: myVec, conjugate_gradient
+import Mochi.LinearSolvers: myVec, conjugate_gradient
 using LinearAlgebra
 
 @testset "CG @ myVec" begin
