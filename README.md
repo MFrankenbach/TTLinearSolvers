@@ -7,3 +7,8 @@ This code provides experimental implementations of:
 
 # Getting started
 All you need to do is `using Pkg; Pkg.instantiate()` in the Julia REPL.
+
+# Entry points for key features
+- GMRES: `function gmres`
+- AMEn: `function amen[!]`
+- DMRG/MALS: `function halfsweep!` without AMEn update (and `nsite>1`)
