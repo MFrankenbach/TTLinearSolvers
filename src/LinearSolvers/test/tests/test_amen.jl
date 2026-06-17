@@ -101,6 +101,7 @@ end
             tol=gmres_tol,
             maxiter=300,
             cutoff=cutoff,
+            howverbose=3,
         )
         error = relative_error(ITensorMPS.apply(A, x; apply_kwargs...), b)
 

@@ -89,7 +89,7 @@ Perform a half-sweep to improve the solution `x` of the linear system Ax=b.
 - `leftsweep`: direction of the sweep
 - `_check_normchange`: if true, check that the norm change reported by localupdate! matches the global norm change
 - `_do_check_orthogonality`: if true, check MPS orthogonality after each local update
-- `do_amen_update`: if true, perform AMEn update after each local update (only for nsite=1)
+- `do_amen_update`: if true, perform AMEn update after each local update (only for nsite=1). If false, a DMRG-like (MALS) scheme is performed.
 - `localupdate_kwargs`: additional keyword arguments passed to `localupdate!`. These are parameters for the local linear solver (CG, GMRES...).
 """
 function halfsweep!(
@@ -164,6 +164,7 @@ function halfsweep!(
                 howverbose>2 && println("Bond dimensions after AMEn update $(ITensorMPS.linkdims(x)).")
             end
             orthogonalize!(x, firstsite_act+sign)
+            (howverbose>2 && do_amen_update) && println("Bond dimensions after orthogonalization $(ITensorMPS.linkdims(x)).")
             dyn_env_LHS, dyn_env_RHS = moveon_sweep!(
                 A, x, b,
                 firstsite_act,

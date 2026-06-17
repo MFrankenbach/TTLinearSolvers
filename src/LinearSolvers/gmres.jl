@@ -1,12 +1,16 @@
 """
     gmres(A, b; x0=zero(b), maxiter=100, tol=1e-6)
 
-Solves Ax = b using the GMRES method. Works with custom vector types.
-Requires only `+`, `*`, `dot`, `norm`, and `zero`.
-The first version of this function was written by ChatGPT.
+Solves Ax = b using the GMRES method. It works with any custom vector type that overloads:
+- `LinearSolvers.ls_add(t1, t2; kwargs...)` for addition of two vectors
+- `LinearSolvers.ls_truncate!(t; kwargs...)` for truncation of a vector
+- `LinearAlgebra.dot(t1, t2)`
+- `LinearAlgebra.norm(t)`
+- `Base.:*(a, t)` for scalar multiplication
+- `Base.:-(t)` for sign inversion
 
 # Arguments:
-- A: function A(v) that returns A applied to v (same type as v)
+- A: function A(v; kwargs...) that returns A applied to v (same type as v)
 - b: right-hand side vector
 - x0: initial guess (no default)
 - maxiter: maximum number of iterations

@@ -78,6 +78,7 @@ function amen_expand_bond!(
     nextsite = site + (left ? 1 : -1)
     orthogonalize!(r, nextsite)
     truncate_bond!(x, site, !left; cutoff=truncate_cutoff, maxdim=truncate_maxdim)
+    # FIRST orthogonalize to next site, THEN expand bond! Otherwise, expansion gets undone by orthogonalization.
     orthogonalize!(x, nextsite)
     expand_bond!(x, r, site, left; cutoff=truncate_cutoff)
 end
@@ -266,12 +267,13 @@ function _orthocenter_check(
 end
 
 """
-Perform `nsweeps` 1-site AMEn sweeps to solve `(a0 + a1⋅A)x=b` for
-positive definite `A`. `x` is updated in-place and returned.
+Perform `nsweeps` 1-site AMEn sweeps to solve `(a0 + a1⋅A)x=b`. It is intended for
+**positive definite** `A`. `x` is updated in-place and returned.
 # Arguments
 - `amen_kargs`: Keyword arguments passed to `amen_update_1site!`. Concerns bond truncation and MPO-MPS multiplication for
 the residual computation.
-- `localupdate_kwargs`: Keyword arguments passed to `localupdate!`. Concerns the local solver (e.g., GMRES) settings.
+- `localupdate_kwargs`: Keyword arguments passed to `localupdate!`. Concerns the local solver (e.g., GMRES) settings:
+Which solver to use, target accuracy, maximum number of iterations, etc.
 """
 function amen!(
     A::MPO,
@@ -317,6 +319,9 @@ function amen!(
     return x
 end
 
+"""
+See [`amen!`](@ref) for documentation.
+"""
 function amen(
     A::MPO,
     x::MPS,
