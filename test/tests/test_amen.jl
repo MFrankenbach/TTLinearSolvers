@@ -1,4 +1,4 @@
-using Mochi.LinearSolvers:
+using LinearSolvers:
     expand_bond!,
     kept_space_projector,
     discarded_space_projector,

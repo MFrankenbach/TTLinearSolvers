@@ -1,4 +1,4 @@
-import Mochi.LinearSolvers: myVec, conjugate_gradient
+import LinearSolvers: myVec, conjugate_gradient
 using LinearAlgebra
 
 @testset "CG @ myVec" begin

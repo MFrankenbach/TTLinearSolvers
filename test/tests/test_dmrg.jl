@@ -1,4 +1,4 @@
-import Mochi.LinearSolvers: lanczos, to_matrix, DMRG
+import LinearSolvers: lanczos, to_matrix, DMRG
 
 @testset "Lanczos" begin
     function test_lanczos()

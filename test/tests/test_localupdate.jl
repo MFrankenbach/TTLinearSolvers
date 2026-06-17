@@ -1,4 +1,4 @@
-import Mochi.LinearSolvers: split_x_local
+import LinearSolvers: split_x_local
 
 @testset "Local update" begin
 
