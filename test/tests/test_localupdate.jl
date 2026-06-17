@@ -1,4 +1,4 @@
-import LinearSolvers: split_x_local
+import TTLinearSolvers: split_x_local
 
 @testset "Local update" begin
 

@@ -2,8 +2,8 @@
     gmres(A, b; x0=zero(b), maxiter=100, tol=1e-6)
 
 Solves Ax = b using the GMRES method. It works with any custom vector type that overloads:
-- `LinearSolvers.ls_add(t1, t2; kwargs...)` for addition of two vectors
-- `LinearSolvers.ls_truncate!(t; kwargs...)` for truncation of a vector
+- `TTLinearSolvers.ls_add(t1, t2; kwargs...)` for addition of two vectors
+- `TTLinearSolvers.ls_truncate!(t; kwargs...)` for truncation of a vector
 - `LinearAlgebra.dot(t1, t2)`
 - `LinearAlgebra.norm(t)`
 - `Base.:*(a, t)` for scalar multiplication
@@ -76,7 +76,7 @@ function gmres(
             printstyled("    GMRES: Using relaxed cutoff = $trunc_cut_relaxed / $(operator_kwargs_[_cutoff_key()])\n"; color=:yellow)
         end
 
-        @showtime w = A(V[k]; operator_kwargs_...)
+        w = A(V[k]; operator_kwargs_...)
 
         howverbose > 2 && (println("    GMRES: A(Vₖ)"); display(w))
 
@@ -125,7 +125,7 @@ function gmres(
 
         if residual_check
             # Check true residual
-            @showtime xk = build_solution_vector(y, V, x0; add_kwargs=add_kwargs, cutoff=gmres_truncate_cutoff)
+            xk = build_solution_vector(y, V, x0; add_kwargs=add_kwargs, cutoff=gmres_truncate_cutoff)
             howverbose>0 && println("    GMRES: True residual in iteration $(k): $(norm(b - A(xk; operator_kwargs_...))/nb)")
         end
 
@@ -135,7 +135,7 @@ function gmres(
         if relres < tol
             # Build solution approximation x_k = x₀ + V_k * y
             howverbose > 0 && printstyled("Converged in $k iterations with relative residual $relres. Building solution vector...\n"; color=:blue, bold=true)
-            @showtime xk = build_solution_vector(y, V, x0; add_kwargs=add_kwargs, cutoff=gmres_truncate_cutoff)
+            xk = build_solution_vector(y, V, x0; add_kwargs=add_kwargs, cutoff=gmres_truncate_cutoff)
             howverbose > 0 && printstyled("... done\n"; color=:blue, bold=true)
             return xk, true, relres
         end

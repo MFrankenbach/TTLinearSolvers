@@ -1,4 +1,4 @@
-import Mochi.LinearSolvers: make_Heisenberg, DMRG, variance
+import TTLinearSolvers: make_Heisenberg, DMRG, variance
 using Random, ITensors, ITensorMPS
 using Profile, StatProfilerHTML
 using Plots

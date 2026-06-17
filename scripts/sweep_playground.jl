@@ -1,4 +1,4 @@
-import Mochi.LinearSolvers: halfsweep!, make_Heisenberg, relative_error, AdagA
+import TTLinearSolvers: halfsweep!, make_Heisenberg, relative_error, AdagA
 using Random, ITensors, ITensorMPS
 using Profile, StatProfilerHTML
 

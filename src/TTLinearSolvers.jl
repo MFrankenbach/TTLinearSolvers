@@ -1,4 +1,4 @@
-module LinearSolvers
+module TTLinearSolvers
     using LinearAlgebra    
     using Random
     using ITensors

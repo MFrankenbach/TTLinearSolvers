@@ -1,4 +1,4 @@
-import LinearSolvers: myVec, conjugate_gradient
+import TTLinearSolvers: myVec, conjugate_gradient
 using LinearAlgebra
 
 @testset "CG @ myVec" begin

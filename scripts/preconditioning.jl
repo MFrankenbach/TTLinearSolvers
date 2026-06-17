@@ -5,7 +5,7 @@ Explore some preconditioning ideas.
 using LinearAlgebra
 using ITensors, ITensorMPS
 using Random
-using Mochi.LinearSolvers: AdagA, make_test_MPO, to_matrix
+using TTLinearSolvers: AdagA, make_test_MPO, to_matrix
 import FastMPOContractions as FMPOC
 
 ITensors.disable_warn_order()

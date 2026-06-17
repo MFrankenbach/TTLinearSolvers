@@ -11,7 +11,7 @@
 
 ## Repository Layout
 
-- Public API or load-order changes may require updating `src/Mochi.jl`, not only the file where new code is written.
+- Public API or load-order changes may require updating `src/TTLinearSolvers.jl`, not only the file where new code is written.
 - Main package tests live under `test/`.
 
 ## Error Handling
