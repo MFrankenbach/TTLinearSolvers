@@ -12,3 +12,8 @@ All you need to do is `using Pkg; Pkg.instantiate()` in the Julia REPL.
 - GMRES: `function gmres`
 - AMEn: `function amen[!]`
 - DMRG/MALS: `function halfsweep!` without AMEn update (and `nsite>1`)
+
+# Remarks
+- In the AMEn bond expansion, we move the orthogonality center and only then expand the bond using the residual. Otherwise, the QR decomposition would just undo the expansion. This currently leads to above-worst-case bond dimensions, which could be mended by an additional QR sweep after each local update.
+- We recompute the full residual after each local update. This is more reliable, but in the AMEn paper, it is pointed out that the residual can be updated on the fly via simultaneous sweeps along the solution and residual tensor trains (cheaper, but less reliable).
+- Finding an ideal truncation scheme in TT-GMRES is non-trivial: too conservative truncations are obviously inefficient, but high singular value cutoffs can lead to exploding bond dimensions in Krylov vectors! The selection is not fully fine-tuned in the current version.
